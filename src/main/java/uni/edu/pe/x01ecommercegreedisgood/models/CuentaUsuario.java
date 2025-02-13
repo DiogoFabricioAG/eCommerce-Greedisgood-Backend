@@ -35,7 +35,9 @@ public class CuentaUsuario {
 
     private String contrasena;
 
-    private Integer idPersona;
+    @OneToOne
+    @JoinColumn(name = "id_persona")
+    private CuentaPersona Persona;
 
     @Column(name = "fecha_inicio")
     private Date fechaInicio = new Date();
@@ -50,4 +52,5 @@ public class CuentaUsuario {
             inverseJoinColumns = @JoinColumn(name = "id_categoria")
     )
     private List<Categorias> categorias;
+
 }

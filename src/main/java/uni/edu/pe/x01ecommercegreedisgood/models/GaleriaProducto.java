@@ -13,22 +13,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "categoria")
-public class Categorias {
+@Table(name = "galeria_producto")
+public class GaleriaProducto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String categoria;
+    @Column(nullable = false, name = "ruta_imagen")
+    private String rutaImagen;
 
-    private String descripcion;
+    @ManyToOne
+    @JoinColumn(name = "id_producto")
+    private Productos producto;
 
-    @ManyToMany(mappedBy = "categorias")
-    private List<CuentaUsuario> usuarios;
 
-    @ManyToMany(mappedBy = "categorias")
-    private List<Productos> productos;
-
-    @OneToMany(mappedBy = "categoria")
-    private List<Cupon> cupones;
 }

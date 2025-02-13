@@ -13,22 +13,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "categoria")
-public class Categorias {
+public class Carrito {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String categoria;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private CuentaUsuario cuentaUsuario;
 
-    private String descripcion;
+    @OneToMany(mappedBy = "carrito")
+    private List<CarritoProductos> carritoProductos;
 
-    @ManyToMany(mappedBy = "categorias")
-    private List<CuentaUsuario> usuarios;
-
-    @ManyToMany(mappedBy = "categorias")
-    private List<Productos> productos;
-
-    @OneToMany(mappedBy = "categoria")
-    private List<Cupon> cupones;
 }
