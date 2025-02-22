@@ -2,6 +2,7 @@ package uni.edu.pe.x01ecommercegreedisgood.mappers;
 
 import org.springframework.stereotype.Component;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.requests.ProductoRequest;
+import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.ProductoResponse;
 import uni.edu.pe.x01ecommercegreedisgood.models.Producto;
 
 @Component
@@ -23,5 +24,18 @@ public class ProductoMapper {
             producto.setPrecioAntiguo(productoRequest.precioAntiguo());
         }
         return producto;
+    }
+
+    public ProductoResponse toResponse(Producto producto) {
+        return new ProductoResponse(
+                producto.getId(),
+                producto.getPrecio(),
+                producto.getNombre(),
+                producto.getDescripcion(),
+                producto.getReservas(),
+                producto.getEnOferta(),
+                producto.getPrecioAntiguo(),
+                producto.getTipoDespacho()
+        );
     }
 }

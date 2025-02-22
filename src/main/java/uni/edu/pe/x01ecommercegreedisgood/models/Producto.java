@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import uni.edu.pe.x01ecommercegreedisgood.enums.TipoDespacho;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -44,7 +45,7 @@ public class Producto {
             joinColumns = @JoinColumn(name = "id_producto"),
             inverseJoinColumns = @JoinColumn(name = "id_categoria")
     )
-    private List<Categoria> categorias;
+    private Set<Categoria> categorias;
 
     @ManyToMany
     @JoinTable(
