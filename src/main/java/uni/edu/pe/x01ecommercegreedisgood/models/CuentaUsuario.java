@@ -51,6 +51,6 @@ public class CuentaUsuario {
             joinColumns = @JoinColumn(name = "id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "id_categoria")
     )
-    private List<Categorias> categorias;
+    private List<Categoria> categorias;
 
 }

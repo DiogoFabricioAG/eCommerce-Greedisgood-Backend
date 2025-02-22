@@ -22,7 +22,7 @@ public class CarritoProductos {
 
     @ManyToOne
     @JoinColumn(name = "id_producto")
-    private Productos producto;
+    private Producto producto;
 
     @ManyToOne
     @JoinColumn(name = "id_carrito")

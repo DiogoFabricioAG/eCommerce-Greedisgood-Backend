@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "categoria")
-public class Categorias {
+public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +27,7 @@ public class Categorias {
     private List<CuentaUsuario> usuarios;
 
     @ManyToMany(mappedBy = "categorias")
-    private List<Productos> productos;
+    private List<Producto> productos;
 
     @OneToMany(mappedBy = "categoria")
     private List<Cupon> cupones;

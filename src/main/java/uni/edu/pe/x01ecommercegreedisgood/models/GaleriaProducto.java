@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -25,7 +22,7 @@ public class GaleriaProducto {
 
     @ManyToOne
     @JoinColumn(name = "id_producto")
-    private Productos producto;
+    private Producto producto;
 
 
 }

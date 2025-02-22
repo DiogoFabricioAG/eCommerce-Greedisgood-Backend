@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -31,5 +30,5 @@ public class ProductoMensajes {
 
     @ManyToOne
     @JoinColumn(name = "id_producto")
-    private Productos producto;
+    private Producto producto;
 }

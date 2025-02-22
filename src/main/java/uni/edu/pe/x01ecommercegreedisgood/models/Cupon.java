@@ -30,8 +30,8 @@ public class Cupon {
 
     @ManyToOne
     @JoinColumn(name = "id_categoria")
-    private Categorias categoria;
+    private Categoria categoria;
 
     @ManyToMany(mappedBy = "cupones")
-    private List<Productos> productos;
+    private List<Producto> productos;
 }

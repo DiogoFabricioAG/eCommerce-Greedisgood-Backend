@@ -11,12 +11,11 @@ import uni.edu.pe.x01ecommercegreedisgood.enums.TipoDespacho;
 import java.util.List;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "producto")
-public class Productos {
+public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,7 +44,7 @@ public class Productos {
             joinColumns = @JoinColumn(name = "id_producto"),
             inverseJoinColumns = @JoinColumn(name = "id_categoria")
     )
-    private List<Categorias> categorias;
+    private List<Categoria> categorias;
 
     @ManyToMany
     @JoinTable(
