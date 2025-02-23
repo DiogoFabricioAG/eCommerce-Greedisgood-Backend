@@ -26,7 +26,7 @@ public class Categoria {
     @ManyToMany(mappedBy = "categorias")
     private List<CuentaUsuario> usuarios;
 
-    @ManyToMany(mappedBy = "categorias")
+    @OneToMany(mappedBy = "categoria")
     private List<Producto> productos;
 
     @OneToMany(mappedBy = "categoria")

@@ -3,20 +3,21 @@ package uni.edu.pe.x01ecommercegreedisgood.dtos.requests;
 
 import jakarta.validation.constraints.NotNull;
 import uni.edu.pe.x01ecommercegreedisgood.enums.TipoDespacho;
+import uni.edu.pe.x01ecommercegreedisgood.models.Categoria;
 
 public record ProductoRequest(
-        @NotNull Double precio,
+        @NotNull Double price,
 
-        @NotNull String nombre,
+        @NotNull String productName,
 
-        String descripcion,
+        String description,
 
-        @NotNull Integer reservas,
+        @NotNull Integer stock,
 
-        @NotNull Boolean enOferta,
+        @NotNull Boolean isDiscount,
 
-        Double precioAntiguo,
+        Double old,
 
-        @NotNull TipoDespacho tipoDespacho
+        @NotNull TipoDespacho dispatch
 ) {
 }

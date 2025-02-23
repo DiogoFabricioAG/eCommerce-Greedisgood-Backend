@@ -39,13 +39,12 @@ public class Producto {
     @Enumerated(EnumType.STRING)
     private TipoDespacho tipoDespacho;
 
-    @ManyToMany
-    @JoinTable(
-            name = "producto_categorias",
-            joinColumns = @JoinColumn(name = "id_producto"),
-            inverseJoinColumns = @JoinColumn(name = "id_categoria")
-    )
-    private Set<Categoria> categorias;
+    @ManyToOne
+    @JoinColumn(name = "id_categoria")
+    private Categoria categoria;
+
+    @OneToMany(mappedBy = "producto")
+    List<GaleriaProducto> imagenes;
 
     @ManyToMany
     @JoinTable(
