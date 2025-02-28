@@ -19,6 +19,7 @@ import uni.edu.pe.x01ecommercegreedisgood.services.ProductoService;
 import java.util.List;
 import java.util.Set;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/productos")
 public class ProductoController {
@@ -49,6 +50,11 @@ public class ProductoController {
     @GetMapping("/images/{idProduct}")
     public ResponseEntity<Set<GaleriaProductoResponse>> findAllImages(@PathVariable Long idProduct) {
         return new ResponseEntity<>(productoService.findAllPhotos(idProduct), HttpStatus.OK);
+    }
+
+    @GetMapping("/{idProduct}")
+    public ResponseEntity<ProductoResponse> findById(@PathVariable Long idProduct) {
+        return new ResponseEntity<>(productoService.findById(idProduct), HttpStatus.OK);
     }
 
     @PostMapping("/images/save/{idProduct}")

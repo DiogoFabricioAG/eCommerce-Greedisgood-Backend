@@ -55,6 +55,16 @@ public class ProductoService implements iProductoService{
     }
 
     @Override
+    public ProductoResponse findById(Long idProducto) {
+        Producto producto = productoRepository.findById(idProducto).orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        List<GaleriaProductoResponse> galeriaProducto = producto.getImagenes().stream().map(galeriaProductoMapper::toResponse).toList();
+        List<String> images = galeriaProducto.stream().map(GaleriaProductoResponse::rutaImage).toList();
+
+        return productoMapper.toResponse(producto,images);
+
+    }
+
+    @Override
     public ProductoResponse addProducto(ProductoRequest productoRequest) {
         Producto producto = productoRepository.save(productoMapper.toEntity(productoRequest));
         List<GaleriaProductoResponse> galeriaProducto = producto.getImagenes().stream().map(galeriaProductoMapper::toResponse).toList();

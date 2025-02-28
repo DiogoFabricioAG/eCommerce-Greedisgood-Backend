@@ -14,5 +14,5 @@ public interface iProductoService {
     ProductoResponse addProducto(ProductoRequest productoRequest);
     ProductoResponse asignarCategoria(Long idProducto, Long idCategorias);
     Set<GaleriaProductoResponse> findAllPhotos(Long idProduct);
-
+    ProductoResponse findById(Long idProducto);
 }

@@ -23,6 +23,6 @@ public record ProductoResponse(
 
         String category,
 
-        List<String> images
+        List<String> image
 ) {
 }
