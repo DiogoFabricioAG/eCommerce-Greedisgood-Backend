@@ -30,7 +30,8 @@ public class CuentaPersonaMapper {
         return new UserDataResponse(
                 cuentaUsuario.getNombreUsuario(),
                 cuentaUsuario.getCorreoElectronico(),
-                true
+                true,
+                cuentaUsuario.getSlug()
         );
     };
 }

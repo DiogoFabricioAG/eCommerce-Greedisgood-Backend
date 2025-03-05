@@ -9,6 +9,9 @@ public interface CuentaUsuarioRepository extends JpaRepository<CuentaUsuario, Lo
     boolean existsBycorreoElectronico(String correo);
     boolean existsBySlug(String slug);
 
+    CuentaUsuario findByNombreUsuario(String nombreUsuario);
     boolean existsByCorreoElectronicoAndContrasena(String correoElectronico, String contrasena);
     CuentaUsuario findByCorreoElectronicoAndContrasena(String correo, String contrasena);
+
+    CuentaUsuario findBySlug(String slug);
 }

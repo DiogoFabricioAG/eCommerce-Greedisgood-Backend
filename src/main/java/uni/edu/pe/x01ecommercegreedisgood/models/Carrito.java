@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uni.edu.pe.x01ecommercegreedisgood.enums.TipoCarrito;
 
 import java.util.List;
 
@@ -21,10 +22,15 @@ public class Carrito {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente")
+    @JoinColumn(name = "id_cliente", nullable = false)
     private CuentaUsuario cuentaUsuario;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_carrito")
+    private TipoCarrito tipoCarrito;
 
     @OneToMany(mappedBy = "carrito")
     private List<CarritoProductos> carritoProductos;
+
 
 }
