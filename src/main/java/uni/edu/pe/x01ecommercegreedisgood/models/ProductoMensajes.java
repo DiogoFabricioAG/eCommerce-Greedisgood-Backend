@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +25,9 @@ public class ProductoMensajes {
 
     @Column(nullable = true)
     private Integer calificacion;
+
+    @Column(nullable = true)
+    private Date fecha;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario")

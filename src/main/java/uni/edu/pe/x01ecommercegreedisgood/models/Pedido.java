@@ -28,5 +28,7 @@ public class Pedido {
     @Column(nullable = false, name = "fecha_pedido")
     private Date fechaPedido;
 
-
+    @ManyToOne
+    @JoinColumn(name = "id_cupon")
+    private Cupon cupon;
 }
