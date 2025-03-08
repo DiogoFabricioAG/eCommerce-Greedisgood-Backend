@@ -7,6 +7,8 @@ import uni.edu.pe.x01ecommercegreedisgood.models.Producto;
 
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto,Long> {
+
+    Producto findByNombre(String nombre);
 }
 
 

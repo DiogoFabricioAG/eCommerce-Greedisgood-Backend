@@ -3,6 +3,7 @@ package uni.edu.pe.x01ecommercegreedisgood.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.CarritoProductoResponse;
+import uni.edu.pe.x01ecommercegreedisgood.enums.TipoCarrito;
 import uni.edu.pe.x01ecommercegreedisgood.mappers.CarritoProductoMapper;
 import uni.edu.pe.x01ecommercegreedisgood.models.Carrito;
 import uni.edu.pe.x01ecommercegreedisgood.models.CarritoProductos;
@@ -28,7 +29,7 @@ public class CarritoService implements iCarritoService {
     @Override
     public List<CarritoProductoResponse> getCartItems(String slug) {
         CuentaUsuario cuentaUsuario = cuentaUsuarioRepository.findBySlug(slug);
-        Carrito carrito = carritoRepository.findByCuentaUsuario(cuentaUsuario);
+        Carrito carrito = carritoRepository.findByCuentaUsuarioAndTipoCarritoNot(cuentaUsuario, TipoCarrito.COMPLETADO);
         return carrito.getCarritoProductos().stream().map(carritoProductoMapper::toResponse).collect(Collectors.toList());
     }
 }

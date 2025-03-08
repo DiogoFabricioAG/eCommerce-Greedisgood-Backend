@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uni.edu.pe.x01ecommercegreedisgood.dtos.requests.CarritoProductoGenRequest;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.requests.CarritoProductoRequest;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.CarritoProductoResponse;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.MessageResponse;
-import uni.edu.pe.x01ecommercegreedisgood.models.Carrito;
 import uni.edu.pe.x01ecommercegreedisgood.services.CarritoProductoService;
 import uni.edu.pe.x01ecommercegreedisgood.services.CarritoService;
 
@@ -34,4 +34,14 @@ public class CarritoController {
         List<CarritoProductoResponse> items = carritoService.getCartItems(slug);
         return ResponseEntity.ok(items);
     };
+
+    @PatchMapping("/{slug}")
+    public ResponseEntity<MessageResponse> updateProductCart(@RequestBody List<CarritoProductoGenRequest> productoGenRequests, @PathVariable String slug){
+        return new ResponseEntity<>(carritoProductoService.updateProducts(productoGenRequests, slug), HttpStatus.OK);
+    };
+
+    @DeleteMapping("/{slug}/{productName}")
+    public ResponseEntity<MessageResponse> deleteProductCart(@PathVariable String productName,@PathVariable String slug){
+      return new ResponseEntity<>(carritoProductoService.deleteProduct(productName, slug), HttpStatus.OK);
+    }
 }

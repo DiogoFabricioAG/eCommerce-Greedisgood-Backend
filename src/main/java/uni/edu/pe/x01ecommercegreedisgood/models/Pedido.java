@@ -27,5 +27,6 @@ public class Pedido {
 
     @Column(nullable = false, name = "fecha_pedido")
     private Date fechaPedido;
-    
+
+
 }

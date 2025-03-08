@@ -10,4 +10,5 @@ import uni.edu.pe.x01ecommercegreedisgood.models.Producto;
 public interface CarritoProductoRepository extends JpaRepository<CarritoProductos, Long> {
 
     boolean existsByCarritoAndProducto(Carrito carrito, Producto producto);
+    CarritoProductos findByCarritoAndProducto(Carrito carrito, Producto producto);
 }

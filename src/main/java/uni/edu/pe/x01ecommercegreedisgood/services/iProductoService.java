@@ -3,6 +3,7 @@ package uni.edu.pe.x01ecommercegreedisgood.services;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.requests.ProductoRequest;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.CategoriaResponse;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.GaleriaProductoResponse;
+import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.MessageResponse;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.ProductoResponse;
 import uni.edu.pe.x01ecommercegreedisgood.models.Producto;
 
