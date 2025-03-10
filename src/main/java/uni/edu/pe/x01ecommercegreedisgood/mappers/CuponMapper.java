@@ -17,4 +17,13 @@ public class CuponMapper {
         return cupon;
     }
 
+    public Cupon toEntityTest(String cuponCode, Categoria categoria) {
+        Cupon cupon = new Cupon();
+        cupon.setCuponCode(cuponCode);
+        cupon.setCategoria(categoria);
+        cupon.setCantidadUso(1);
+        cupon.setPorcentajeDescuento(0.2);
+        return cupon;
+    }
+
 }

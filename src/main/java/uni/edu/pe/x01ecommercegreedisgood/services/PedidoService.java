@@ -2,13 +2,16 @@ package uni.edu.pe.x01ecommercegreedisgood.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uni.edu.pe.x01ecommercegreedisgood.dtos.requests.PedidoRequest;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.MessageResponse;
 import uni.edu.pe.x01ecommercegreedisgood.enums.TipoCarrito;
 import uni.edu.pe.x01ecommercegreedisgood.models.Carrito;
 import uni.edu.pe.x01ecommercegreedisgood.models.CuentaUsuario;
+import uni.edu.pe.x01ecommercegreedisgood.models.Cupon;
 import uni.edu.pe.x01ecommercegreedisgood.models.Pedido;
 import uni.edu.pe.x01ecommercegreedisgood.repositories.CarritoRepository;
 import uni.edu.pe.x01ecommercegreedisgood.repositories.CuentaUsuarioRepository;
+import uni.edu.pe.x01ecommercegreedisgood.repositories.CuponRepository;
 import uni.edu.pe.x01ecommercegreedisgood.repositories.PedidoRepository;
 
 import java.time.LocalDate;
@@ -28,22 +31,31 @@ public class PedidoService implements iPedidoService {
 
     @Autowired
     private CarritoRepository carritoRepository;
+    @Autowired
+    private CuponRepository cuponRepository;
 
     @Override
-    public MessageResponse addPedido(String slug) {
-        LocalDate fechaActual = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String fechaFormateada = fechaActual.format(formatter);
+    public MessageResponse addPedido(PedidoRequest pedidoRequest) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            sb.append(random.nextInt(10)); // Genera un número entre 0 y 9
+        }
 
-        CuentaUsuario cuenta = cuentaUsuarioRepository.findBySlug(slug);
+        CuentaUsuario cuenta = cuentaUsuarioRepository.findBySlug(pedidoRequest.slug());
         Carrito carrito = carritoRepository.findByCuentaUsuarioAndTipoCarritoNot(cuenta,TipoCarrito.COMPLETADO);
+
         Pedido pedido = new Pedido();
         pedido.setFechaPedido(new Date());
         pedido.setCarrito(carrito);
         carrito.setTipoCarrito(TipoCarrito.COMPLETADO);
         carritoRepository.save(carrito);
 
-        pedido.setCodigo("P"+fechaFormateada+ cuenta.getId().toString());
+        pedido.setCodigo("P"+sb.toString());
+        if (pedidoRequest.idCupon() != null) {
+            Cupon cupon = cuponRepository.findById(pedidoRequest.idCupon()).orElseThrow(() -> new RuntimeException("No existe ese cupon"));
+            pedido.setCupon(cupon);
+        }
         pedidoRepository.save(pedido);
 
         return new MessageResponse(

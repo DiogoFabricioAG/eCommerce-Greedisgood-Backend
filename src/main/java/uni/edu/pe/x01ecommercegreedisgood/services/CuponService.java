@@ -3,6 +3,7 @@ package uni.edu.pe.x01ecommercegreedisgood.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.requests.CuponRequest;
+import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.CuponResponse;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.MessageResponse;
 import uni.edu.pe.x01ecommercegreedisgood.mappers.CuponMapper;
 import uni.edu.pe.x01ecommercegreedisgood.models.Categoria;
@@ -35,4 +36,29 @@ public class CuponService implements iCuponService {
                 201
         );
     }
+
+    @Override
+    public CuponResponse useCupon(String cuponCode) {
+        Cupon cupon = cuponRepository.findByCuponCode(cuponCode);
+
+        cupon.setCantidadUso(cupon.getCantidadUso() - 1);
+        cuponRepository.save(cupon);
+        return new CuponResponse(
+                cupon.getId(),
+                cuponCode
+        );
+    }
+
+    @Override
+    public MessageResponse testCupon(String cuponCode) {
+        Categoria categoria = categoriaRepository.findById(1L).orElseThrow(() -> new RuntimeException("No existe esta categoria"));
+        Cupon cupon = cuponMapper.toEntityTest(cuponCode,categoria);
+        cuponRepository.save(cupon);
+        return new MessageResponse(
+                "TESTEADO",
+                200
+        );
+    }
+
+
 }

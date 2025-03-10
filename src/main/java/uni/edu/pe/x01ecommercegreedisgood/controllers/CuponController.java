@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.requests.CuponRequest;
+import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.CuponResponse;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.MessageResponse;
 import uni.edu.pe.x01ecommercegreedisgood.models.Cupon;
 import uni.edu.pe.x01ecommercegreedisgood.services.CuponService;
@@ -21,5 +22,15 @@ public class CuponController {
     @PostMapping("/")
     public ResponseEntity<MessageResponse> addCupon(@RequestBody CuponRequest cuponRequest) {
         return new ResponseEntity<>(cuponService.createCupon(cuponRequest), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{cuponCode}")
+    public ResponseEntity<MessageResponse> createCuponTest(@PathVariable String cuponCode) {
+        return new ResponseEntity<>(cuponService.testCupon(cuponCode), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{cuponCode}")
+    public ResponseEntity<CuponResponse> useCupon(@PathVariable String cuponCode) {
+        return new ResponseEntity<>(cuponService.useCupon(cuponCode), HttpStatus.CREATED);
     }
 }

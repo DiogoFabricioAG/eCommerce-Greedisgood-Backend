@@ -6,4 +6,5 @@ import uni.edu.pe.x01ecommercegreedisgood.models.Cupon;
 
 @Repository
 public interface CuponRepository extends JpaRepository<Cupon, Long> {
+    Cupon findByCuponCode(String cuponCode);
 }

@@ -30,6 +30,7 @@ public class CarritoService implements iCarritoService {
     public List<CarritoProductoResponse> getCartItems(String slug) {
         CuentaUsuario cuentaUsuario = cuentaUsuarioRepository.findBySlug(slug);
         Carrito carrito = carritoRepository.findByCuentaUsuarioAndTipoCarritoNot(cuentaUsuario, TipoCarrito.COMPLETADO);
+
         return carrito.getCarritoProductos().stream().map(carritoProductoMapper::toResponse).collect(Collectors.toList());
     }
 }
