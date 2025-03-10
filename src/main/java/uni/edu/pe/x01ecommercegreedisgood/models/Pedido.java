@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uni.edu.pe.x01ecommercegreedisgood.enums.TipoEstadoPedido;
 
 import java.util.Date;
 
@@ -31,4 +32,8 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "id_cupon")
     private Cupon cupon;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_estado")
+    private TipoEstadoPedido tipoEstadoPedido;
 }

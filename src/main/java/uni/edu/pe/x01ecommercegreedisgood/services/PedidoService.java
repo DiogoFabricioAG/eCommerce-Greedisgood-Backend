@@ -3,12 +3,14 @@ package uni.edu.pe.x01ecommercegreedisgood.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.requests.PedidoRequest;
+import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.CarritoProductoResponse;
 import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.MessageResponse;
+import uni.edu.pe.x01ecommercegreedisgood.dtos.responses.PedidoResponse;
 import uni.edu.pe.x01ecommercegreedisgood.enums.TipoCarrito;
-import uni.edu.pe.x01ecommercegreedisgood.models.Carrito;
-import uni.edu.pe.x01ecommercegreedisgood.models.CuentaUsuario;
-import uni.edu.pe.x01ecommercegreedisgood.models.Cupon;
-import uni.edu.pe.x01ecommercegreedisgood.models.Pedido;
+import uni.edu.pe.x01ecommercegreedisgood.enums.TipoEstadoPedido;
+import uni.edu.pe.x01ecommercegreedisgood.mappers.CarritoProductoMapper;
+import uni.edu.pe.x01ecommercegreedisgood.mappers.PedidoMapper;
+import uni.edu.pe.x01ecommercegreedisgood.models.*;
 import uni.edu.pe.x01ecommercegreedisgood.repositories.CarritoRepository;
 import uni.edu.pe.x01ecommercegreedisgood.repositories.CuentaUsuarioRepository;
 import uni.edu.pe.x01ecommercegreedisgood.repositories.CuponRepository;
@@ -17,8 +19,8 @@ import uni.edu.pe.x01ecommercegreedisgood.repositories.PedidoRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService implements iPedidoService {
@@ -31,8 +33,15 @@ public class PedidoService implements iPedidoService {
 
     @Autowired
     private CarritoRepository carritoRepository;
+
     @Autowired
     private CuponRepository cuponRepository;
+
+    @Autowired
+    private PedidoMapper pedidoMapper;
+
+    @Autowired
+    private CarritoProductoMapper carritoProductoMapper;
 
     @Override
     public MessageResponse addPedido(PedidoRequest pedidoRequest) {
@@ -48,6 +57,7 @@ public class PedidoService implements iPedidoService {
         Pedido pedido = new Pedido();
         pedido.setFechaPedido(new Date());
         pedido.setCarrito(carrito);
+        pedido.setTipoEstadoPedido(TipoEstadoPedido.PREPARANDO);
         carrito.setTipoCarrito(TipoCarrito.COMPLETADO);
         carritoRepository.save(carrito);
 
@@ -62,5 +72,31 @@ public class PedidoService implements iPedidoService {
                 "Pedido creado exitosamente",
                 200
         );
+    }
+
+    @Override
+    public List<PedidoResponse> getAllPedidos(String slug) {
+        CuentaUsuario cuenta = cuentaUsuarioRepository.findBySlug(slug);
+        List<Carrito> carritos = carritoRepository.findAllByCuentaUsuarioAndTipoCarritoNot(cuenta,TipoCarrito.USO);
+        List<Pedido> pedidos = carritos.stream().map(pedidoRepository::findByCarrito).toList();
+        List<PedidoResponse> pedidoResponses = new ArrayList<>();
+        Double price;
+        for (Pedido pedido : pedidos) {
+            price = 0.0;
+            for (CarritoProductos carritoProductos : pedido.getCarrito().getCarritoProductos()){
+                price += carritoProductos.getProducto().getPrecio()*carritoProductos.getCantidad();
+            }
+            if (pedido.getCupon() != null) {
+                price *= (1-pedido.getCupon().getPorcentajeDescuento());
+            }
+            pedidoResponses.add(pedidoMapper.toResponse(pedido, price));
+        }
+        return pedidoResponses;
+    }
+
+    @Override
+    public List<CarritoProductoResponse> getAllProducts(Long idPedido) {
+        Pedido pedido = pedidoRepository.findById(idPedido).orElseThrow(() -> new RuntimeException("No existe ese pedido"));
+        return pedido.getCarrito().getCarritoProductos().stream().map(carritoProductoMapper::toResponse).collect(Collectors.toList());
     }
 }
