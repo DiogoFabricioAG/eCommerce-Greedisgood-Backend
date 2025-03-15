@@ -41,8 +41,17 @@ public class CuponService implements iCuponService {
     public CuponResponse useCupon(String cuponCode) {
         Cupon cupon = cuponRepository.findByCuponCode(cuponCode);
 
+        if (cupon == null) {
+            throw new RuntimeException("No existe esta cupon");
+        }
+
+        if (cupon.getCantidadUso() <= 0){
+            throw new RuntimeException("Ya se ha agotado este cupon");
+        }
+
         cupon.setCantidadUso(cupon.getCantidadUso() - 1);
         cuponRepository.save(cupon);
+
         return new CuponResponse(
                 cupon.getId(),
                 cuponCode
@@ -59,6 +68,5 @@ public class CuponService implements iCuponService {
                 200
         );
     }
-
 
 }

@@ -48,7 +48,9 @@ public class CarritoProductoService implements iCarritoProductoService {
         }
 
         Producto producto = productoRepository.findById(carritoProductoRequest.idProducto()).orElseThrow(() -> new RuntimeException("No existe el producto"));
-        System.out.println(carritoProductoRepository.existsByCarritoAndProducto(carrito, producto));
+        if (producto.getReservas() <= 0){
+            return new MessageResponse("No hay más Reservas de este producto",501);
+        }
         if (carritoProductoRepository.existsByCarritoAndProducto(carrito, producto)) {
             return new MessageResponse(
                     "El producto ya esta en el carrito",
@@ -60,6 +62,7 @@ public class CarritoProductoService implements iCarritoProductoService {
             carritoProductos.setCarrito(carrito);
             carritoProductos.setProducto(producto);
             carritoProductos.setCantidad(1);
+            producto.setReservas(producto.getReservas() - 1);
             carritoProductoRepository.save(carritoProductos);
         }
 
@@ -79,7 +82,10 @@ public class CarritoProductoService implements iCarritoProductoService {
         for (CarritoProductoGenRequest carritoProducto : carritoProductoRequests) {
             producto = productoRepository.findByNombre(carritoProducto.productName());
             carritoProductos = carritoProductoRepository.findByCarritoAndProducto(carrito, producto);
+            producto.setReservas(producto.getReservas() + carritoProductos.getCantidad() - carritoProducto.quantity());
+
             carritoProductos.setCantidad(carritoProducto.quantity());
+            productoRepository.save(producto);
             carritoProductoRepository.save(carritoProductos);
         }
         return new MessageResponse(
